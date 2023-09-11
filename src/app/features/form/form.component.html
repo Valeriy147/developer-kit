@@ -1,0 +1,126 @@
+<form [formGroup]="developerForm" (ngSubmit)="onSubmit()">
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Ім'я</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <input matInput placeholder="Ім'я" formControlName="firstName" required>
+        <mat-error *ngIf="developerForm.get('firstName')?.hasError('required')">Ім'я - обов'язкове поле</mat-error>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Прізвище</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <input matInput placeholder="Прізвище" formControlName="lastName" required>
+        <mat-error *ngIf="developerForm.get('lastName')?.hasError('required')">Прізвище - обов'язкове поле</mat-error>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Дата народження</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <input
+          [min]="minDate"
+          [max]="maxDate"
+          matInput
+          placeholder="Дата народження"
+          formControlName="dateOfBirth"
+          [matDatepicker]="picker"
+          required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="developerForm.get('dateOfBirth')?.hasError('required')">Дата народження - обов'язкове поле</mat-error>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>JS технологія</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>Виберіть JS технологію</mat-label>
+        <mat-select formControlName="framework" required>
+          <mat-option value="angular">Angular</mat-option>
+          <mat-option value="react">React</mat-option>
+          <mat-option value="vue">Vue</mat-option>
+        </mat-select>
+        <mat-error *ngIf="developerForm.get('framework')?.hasError('required')">Оберіть JS технологію</mat-error>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Версія фреймворку</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>Виберіть версію фреймворку</mat-label>
+        <mat-select formControlName="frameworkVersion" required [disabled]="!developerForm.get('framework')?.value">
+          <mat-option *ngFor="let version of getFrameworkVersions()" [value]="version">{{ version }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="developerForm.get('frameworkVersion')?.hasError('required')">Оберіть версію фреймворку</mat-error>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Електронна пошта</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <input matInput placeholder="Електронна пошта" formControlName="email" required email>
+        <mat-error *ngIf="developerForm.get('email')?.hasError('required')">Електронна пошта - обов'язкове поле</mat-error>
+        <mat-error *ngIf="developerForm.get('email')?.hasError('email')">Некоректний формат електронної пошти</mat-error>
+        <mat-error *ngIf="emailExistsError">Ця електронна пошта вже існує</mat-error>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+  <div formArrayName="hobbies">
+    <mat-card *ngFor="let hobby of hobbies.controls; let i = index">
+      <div [formGroupName]="i">
+        <mat-card-header>
+          <mat-card-title>Хобі {{ i + 1 }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-form-field>
+            <input matInput placeholder="Назва хобі" [formControlName]="'name'" required>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Тривалість" [formControlName]="'duration'" required>
+          </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button color="warn" [disabled]="developerForm.get('hobbies')?.value.length < 2" (click)="removeHobby(i)">Видалити хобі</button>
+        </mat-card-actions>
+      </div>
+    </mat-card>
+    <button mat-raised-button type="button" class="add-hobby" (click)="addHobby()">Додати хобі</button>
+  </div>
+
+  <button mat-raised-button class="submit" color="primary" type="submit" [disabled]="!developerForm.valid">
+    <ng-container *ngIf="isLoading$ | async as loading; else noLoading">
+      <mat-spinner color="accent" class="loader"></mat-spinner>
+      </ng-container>
+      <ng-template #noLoading>
+        Відправити
+      </ng-template>
+  </button>
+
+</form>

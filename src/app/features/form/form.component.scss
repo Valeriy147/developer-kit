@@ -1,0 +1,33 @@
+mat-form-field {
+  width: 60%;
+}
+
+mat-card {
+  margin: 20px 0;
+}
+
+mat-card-header {
+  margin-bottom: 20px;
+}
+
+.add-hobby {
+  width: 125px;
+}
+
+.submit {
+  width: 125px;
+  margin: 20px 0;
+}
+
+.loader {
+  max-width: 20px;
+  margin: 0 auto;
+  display: block;
+  color: white;
+}
+
+@media(max-width: 720px){
+  mat-form-field {
+    width: 100%;
+  }
+}

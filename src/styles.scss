@@ -1,1 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #d4ece3;
+  box-sizing: border-box;
+  color: white;
+}
+
+.popup-success {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  z-index: 9999;
+}
+
+.popup-error {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #F44336;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  z-index: 9999;
+}
+@media(max-width: 816px) {
+  .popup-success {
+    min-height: 40px;
+    font-size: 12px;
+  }
+
+  .popup-error {
+    min-height: 40px;
+    font-size: 12px;
+
+  }
+}
