@@ -32,15 +32,4 @@ body {
   text-align: center;
   z-index: 9999;
 }
-@media(max-width: 816px) {
-  .popup-success {
-    min-height: 40px;
-    font-size: 12px;
-  }
 
-  .popup-error {
-    min-height: 40px;
-    font-size: 12px;
-
-  }
-}
